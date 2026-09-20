@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Browser Voice & Beat Studio</title>
+  <title>Browser Voice & Beat Studio Pro</title>
   
   <!-- CDN Dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
@@ -39,7 +39,7 @@
 
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 550px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -145,6 +145,12 @@
       gap: 6px;
     }
 
+    .control-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
     label {
       font-size: 0.85rem;
       color: var(--subtext-color);
@@ -170,15 +176,14 @@
       min-height: 1.2em;
     }
 
-    /* Track Take Card Styling */
     .take-card {
       background: var(--bg-color);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .take-header {
@@ -204,11 +209,11 @@
 
 <div class="container">
   <header>
-    <h1>SoundLab Studio Clone</h1>
-    <p>Multi-Take Vocal Recorder & Pitch Studio</p>
+    <h1>GhostLab Audio Studio Pro</h1>
+    <p>Multi-Track Voice & WavePadFX Rack</p>
   </header>
 
-  <!-- 1. Import Beat & Beat Generator Section -->
+  <!-- 1. Beat Import & Generator Section -->
   <div class="section-card">
     <div class="section-title">
       <span>1. Import Beat & Generator</span> <span class="badge">✓</span>
@@ -223,8 +228,10 @@
       <label for="genBeatSelect">Or Generate Synthetic Beat:</label>
       <select id="genBeatSelect">
         <option value="none" selected>None (Use Imported Beat File)</option>
-        <option value="easy">Easy Beat (Pop / 4-on-the-floor)</option>
-        <option value="hiphop">Hip-Hop Beat / Afrobeats Groove</option>
+        <option value="trap">Trap Hip-Hop Beat (140 BPM)</option>
+        <option value="boombap">Boom Bap Classic Hip-Hop (90 BPM)</option>
+        <option value="afro">Afrobeats / Drill Groove (105 BPM)</option>
+        <option value="easy">Easy Pop Beat (120 BPM)</option>
       </select>
     </div>
 
@@ -246,10 +253,10 @@
     <div class="status-text" id="statusText">Ready</div>
   </div>
 
-  <!-- 3. Recorded Voices & Individual Voice/Pitch Controls -->
+  <!-- 3. Recorded Voices & Mix Settings -->
   <div class="section-card">
     <div class="section-title">
-      <span>3. Recorded Voices & Pitch Settings</span> <span class="badge">✓</span>
+      <span>3. Vocal Takes & Track Mixing</span> <span class="badge">✓</span>
     </div>
     <div id="takesContainer" style="display:flex; flex-direction:column; gap:10px;">
       <p style="font-size:0.8rem; color:var(--subtext-color);">No voice takes recorded yet.</p>
@@ -259,50 +266,76 @@
   <!-- 4. Studio Effects Chain Section -->
   <div class="section-card">
     <div class="section-title">
-      <span>4. Studio Mastering Chain</span> <span class="badge">✓</span>
+      <span>4. Mastering FX Rack (WavePad Inspired)</span> <span class="badge">✓</span>
     </div>
     
-    <div class="control-group">
-      <label for="reverbSlider">Reverb (Small Room):</label>
-      <input type="range" id="reverbSlider" min="0" max="1" step="0.05" value="0.2">
+    <div class="control-row">
+      <div class="control-group">
+        <label for="deessSlider">De-Essing Filter:</label>
+        <input type="range" id="deessSlider" min="2000" max="8000" step="100" value="5000">
+      </div>
+      <div class="control-group">
+        <label for="bassBoostSlider">Bass Boost (dB):</label>
+        <input type="range" id="bassBoostSlider" min="0" max="12" step="1" value="3">
+      </div>
     </div>
 
-    <div class="control-group">
-      <label for="eqHighSlider">EQ High (Clarity Boost):</label>
-      <input type="range" id="eqHighSlider" min="-12" max="12" step="1" value="3">
+    <div class="control-row">
+      <div class="control-group">
+        <label for="delaySlider">Echo / Delay Wet:</label>
+        <input type="range" id="delaySlider" min="0" max="0.8" step="0.05" value="0.1">
+      </div>
+      <div class="control-group">
+        <label for="phaserSlider">Phaser FX Depth:</label>
+        <input type="range" id="phaserSlider" min="0" max="1" step="0.05" value="0">
+      </div>
     </div>
 
-    <div class="control-group">
-      <label for="eqLowSlider">EQ Low (Cut Muddiness):</label>
-      <input type="range" id="eqLowSlider" min="-12" max="12" step="1" value="-4">
+    <div class="control-row">
+      <div class="control-group">
+        <label for="reverbSlider">Reverb Pro:</label>
+        <input type="range" id="reverbSlider" min="0" max="1" step="0.05" value="0.2">
+      </div>
+      <div class="control-group">
+        <label for="eqHighSlider">High Treble Clarity:</label>
+        <input type="range" id="eqHighSlider" min="-12" max="12" step="1" value="3">
+      </div>
     </div>
   </div>
 
-  <!-- 5. Playback & Export Section -->
+  <!-- 5. Master Playback & Export -->
   <div class="section-card">
     <div class="section-title">
       <span>5. Playback & Export Mix</span> <span class="badge">✓</span>
     </div>
     <div class="btn-grid">
       <button id="playBtn">▶️ Play Full Mix</button>
-      <button id="exportBtn">💾 Export MP3</button>
+      <button id="stopMixBtn" class="btn-danger" disabled>⏹️ Stop Song</button>
+    </div>
+    <div style="margin-top: 10px;">
+      <button id="exportBtn" style="width: 100%;">💾 Export MP3</button>
     </div>
   </div>
 </div>
 
 <script>
-  // State variables
   let beatBuffer = null;
   let synthLoop = null;
-  let activeBeatType = 'none'; // 'imported', 'easy', 'hiphop', or 'none'
+  let importedBeatPlayer = null;
+  let activeBeatType = 'none';
   
   let mediaRecorder = null;
   let recordedChunks = [];
-  let vocalTakes = []; // Array: { id, buffer, presetPitch, manualPitch, pitchNode }
+  let vocalTakes = []; 
+  let activeTakePlayers = [];
 
-  // Tone.js Shared Effects Chain
+  // Studio FX Node Chain
+  let deEsserNode = null;
+  let bassBoostNode = null;
   let eqNode = null;
   let compressorNode = null;
+  let delayNode = null;
+  let phaserNode = null;
   let reverbNode = null;
   let limiterNode = null;
 
@@ -317,30 +350,56 @@
   const statusText = document.getElementById('statusText');
   const takesContainer = document.getElementById('takesContainer');
   
+  const deessSlider = document.getElementById('deessSlider');
+  const bassBoostSlider = document.getElementById('bassBoostSlider');
+  const delaySlider = document.getElementById('delaySlider');
+  const phaserSlider = document.getElementById('phaserSlider');
   const reverbSlider = document.getElementById('reverbSlider');
   const eqHighSlider = document.getElementById('eqHighSlider');
-  const eqLowSlider = document.getElementById('eqLowSlider');
 
   const playBtn = document.getElementById('playBtn');
+  const stopMixBtn = document.getElementById('stopMixBtn');
   const exportBtn = document.getElementById('exportBtn');
 
-  // Initialize FX Chain
+  // Initialize Audio FX Rack
   function initStudioChain() {
     if (eqNode) return;
 
+    deEsserNode = new Tone.Filter({
+      frequency: parseFloat(deessSlider.value),
+      type: "lowpass"
+    });
+
+    bassBoostNode = new Tone.Filter({
+      frequency: 120,
+      type: "lowshelf",
+      gain: parseFloat(bassBoostSlider.value)
+    });
+
     eqNode = new Tone.EQ3({
-      low: parseFloat(eqLowSlider.value),
+      low: 0,
       mid: 0,
-      high: parseFloat(eqHighSlider.value),
-      lowFrequency: 250,
-      highFrequency: 4000
+      high: parseFloat(eqHighSlider.value)
     });
 
     compressorNode = new Tone.Compressor({
-      threshold: -24,
+      threshold: -20,
       ratio: 4,
       attack: 0.005,
       release: 0.1
+    });
+
+    delayNode = new Tone.FeedbackDelay({
+      delayTime: "8n",
+      feedback: 0.2,
+      wet: parseFloat(delaySlider.value)
+    });
+
+    phaserNode = new Tone.Phaser({
+      frequency: 0.5,
+      octaves: 3,
+      baseFrequency: 350,
+      wet: parseFloat(phaserSlider.value)
     });
 
     reverbNode = new Tone.Freeverb({
@@ -350,22 +409,56 @@
 
     limiterNode = new Tone.Limiter(-0.5);
 
-    // Chain: EQ -> Compressor -> Reverb -> Limiter -> Output
-    eqNode.chain(compressorNode, reverbNode, limiterNode, Tone.Destination);
+    deEsserNode.chain(
+      bassBoostNode, 
+      eqNode, 
+      compressorNode, 
+      delayNode, 
+      phaserNode, 
+      reverbNode, 
+      limiterNode, 
+      Tone.Destination
+    );
   }
 
-  // --- 1. BEAT IMPORT & GENERATION LOGIC ---
+  function stopAllPlayback() {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    
+    if (synthLoop) {
+      synthLoop.dispose();
+      synthLoop = null;
+    }
+    if (importedBeatPlayer) {
+      importedBeatPlayer.stop();
+      importedBeatPlayer.dispose();
+      importedBeatPlayer = null;
+    }
+
+    activeTakePlayers.forEach(p => {
+      try { p.stop(); p.dispose(); } catch (e) {}
+    });
+    activeTakePlayers = [];
+
+    playBeatBtn.disabled = false;
+    stopBeatBtn.disabled = true;
+    playBtn.disabled = false;
+    stopMixBtn.disabled = true;
+    statusText.innerText = "Playback stopped.";
+  }
+
+  // --- 1. BEAT GENERATOR & IMPORT LOGIC ---
   beatFileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    statusText.innerText = "Loading beat file...";
+    statusText.innerText = "Loading beat...";
     const arrayBuffer = await file.arrayBuffer();
     await Tone.start();
     beatBuffer = await Tone.getContext().decodeAudioData(arrayBuffer);
     activeBeatType = 'imported';
     genBeatSelect.value = 'none';
-    statusText.innerText = "Beat file imported! Ready to play or record.";
+    statusText.innerText = "Beat file imported!";
   });
 
   genBeatSelect.addEventListener('change', (e) => {
@@ -383,24 +476,54 @@
     stopBeatPlayback();
 
     if (activeBeatType === 'imported' && beatBuffer) {
-      const beatPlayer = new Tone.Player(beatBuffer).toDestination();
-      beatPlayer.name = "activeBeatPlayer";
-      beatPlayer.start();
-    } else if (activeBeatType === 'easy' || activeBeatType === 'hiphop') {
-      Tone.Transport.bpm.value = activeBeatType === 'hiphop' ? 95 : 120;
+      importedBeatPlayer = new Tone.Player(beatBuffer).toDestination();
+      importedBeatPlayer.start();
+    } else if (activeBeatType !== 'none') {
       
-      const kick = new Tone.MembraneSynth().toDestination();
-      const snare = new Tone.NoiseSynth({ volume: -12, envelope: { decay: 0.1 } }).toDestination();
+      const kick = new Tone.MembraneSynth({ pitchDecay: 0.05, octave: 8 }).toDestination();
+      const snare = new Tone.NoiseSynth({ volume: -8, envelope: { attack: 0.001, decay: 0.15, sustain: 0 } }).toDestination();
+      const hihat = new Tone.MetalSynth({ volume: -20, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000 }).toDestination();
 
-      synthLoop = new Tone.Loop((time) => {
-        if (activeBeatType === 'easy') {
-          kick.triggerAttackRelease("C1", "8n", time);
-        } else {
-          kick.triggerAttackRelease("C1", "8n", time);
-          kick.triggerAttackRelease("C1", "8n", time + Tone.Time("4n").toSeconds() + Tone.Time("8n").toSeconds());
-          snare.triggerAttackRelease("16n", time + Tone.Time("4n").toSeconds());
-        }
-      }, "2n").start(0);
+      let step = 0;
+
+      if (activeBeatType === 'trap') {
+        Tone.Transport.bpm.value = 140;
+        synthLoop = new Tone.Loop((time) => {
+          // 16th Note Trap Pattern
+          if (step % 8 === 0 || step === 10 || step === 14) kick.triggerAttackRelease("C1", "8n", time);
+          if (step === 4 || step === 12) snare.triggerAttackRelease("16n", time);
+          if (step % 2 === 0 || step === 7 || step === 15) hihat.triggerAttackRelease("32n", time);
+          step = (step + 1) % 16;
+        }, "16n").start(0);
+
+      } else if (activeBeatType === 'boombap') {
+        Tone.Transport.bpm.value = 90;
+        synthLoop = new Tone.Loop((time) => {
+          // Classic 90s Boom Bap Pattern
+          if (step === 0 || step === 3 || step === 10) kick.triggerAttackRelease("C1", "8n", time);
+          if (step === 4 || step === 12) snare.triggerAttackRelease("16n", time);
+          if (step % 2 === 0) hihat.triggerAttackRelease("16n", time);
+          step = (step + 1) % 16;
+        }, "16n").start(0);
+
+      } else if (activeBeatType === 'afro') {
+        Tone.Transport.bpm.value = 105;
+        synthLoop = new Tone.Loop((time) => {
+          // Afrobeats / Dancehall Syncopated Groove
+          if (step === 0 || step === 6 || step === 10) kick.triggerAttackRelease("C1", "8n", time);
+          if (step === 3 || step === 12) snare.triggerAttackRelease("16n", time);
+          if (step % 2 === 0) hihat.triggerAttackRelease("16n", time);
+          step = (step + 1) % 16;
+        }, "16n").start(0);
+
+      } else if (activeBeatType === 'easy') {
+        Tone.Transport.bpm.value = 120;
+        synthLoop = new Tone.Loop((time) => {
+          if (step % 4 === 0) kick.triggerAttackRelease("C1", "8n", time);
+          if (step === 4 || step === 12) snare.triggerAttackRelease("16n", time);
+          step = (step + 1) % 16;
+        }, "16n").start(0);
+      }
 
       Tone.Transport.start();
     }
@@ -413,12 +536,17 @@
       synthLoop.dispose();
       synthLoop = null;
     }
+    if (importedBeatPlayer) {
+      importedBeatPlayer.stop();
+      importedBeatPlayer.dispose();
+      importedBeatPlayer = null;
+    }
   }
 
   playBeatBtn.addEventListener('click', async () => {
     await Tone.start();
     if (activeBeatType === 'none' && !beatBuffer) {
-      alert("Please import a beat or select a generated beat option first.");
+      alert("Please select or import a beat first.");
       return;
     }
     startBeatPlayback();
@@ -434,13 +562,20 @@
     statusText.innerText = "Beat stopped.";
   });
 
-  // --- 2. MULTI-TAKE VOCAL RECORDING LOGIC ---
+  // --- 2. VOCAL RECORDING LOGIC ---
   recordBtn.addEventListener('click', async () => {
     await Tone.start();
     initStudioChain();
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        } 
+      });
+
       mediaRecorder = new MediaRecorder(stream);
       recordedChunks = [];
 
@@ -454,18 +589,27 @@
         const buffer = await Tone.getContext().decodeAudioData(arrayBuffer);
         
         const takeId = Date.now();
+        const pNode = new Tone.Panner(0);
+        const pitchShiftNode = new Tone.PitchShift({ pitch: 0 });
+        
+        pitchShiftNode.connect(pNode);
+        pNode.connect(deEsserNode);
+
         vocalTakes.push({
           id: takeId,
           buffer: buffer,
           presetPitch: 0,
           manualPitch: 0,
-          pitchNode: new Tone.PitchShift({ pitch: 0 }).connect(eqNode)
+          gainVal: 0,
+          panVal: 0,
+          pitchNode: pitchShiftNode,
+          pannerNode: pNode
         });
 
         renderTakesList();
         stopBeatPlayback();
 
-        statusText.innerText = `Voice Take #${vocalTakes.length} saved!`;
+        statusText.innerText = `Voice Take Saved!`;
         recordBtn.disabled = false;
         stopBtn.disabled = true;
         playBeatBtn.disabled = false;
@@ -474,7 +618,6 @@
 
       mediaRecorder.start();
       
-      // Auto start beat if available (Mic only captures voice)
       if (activeBeatType !== 'none' || beatBuffer) {
         startBeatPlayback();
       }
@@ -494,7 +637,7 @@
     }
   });
 
-  // --- 3. MULTI-VOICE TRACK LIST & INDIVIDUAL PITCH CONTROLS ---
+  // --- 3. TRACK CONTROLS & GAIN/PAN ---
   function renderTakesList() {
     if (vocalTakes.length === 0) {
       takesContainer.innerHTML = `<p style="font-size:0.8rem; color:var(--subtext-color);">No voice takes recorded yet.</p>`;
@@ -516,32 +659,52 @@
           </div>
         </div>
         
+        <div class="control-row">
+          <div class="control-group">
+            <label>Gain (dB): <span>${take.gainVal}dB</span></label>
+            <input type="range" min="-12" max="12" step="1" value="${take.gainVal}" oninput="updateTakeGain(${take.id}, this.value)">
+          </div>
+          <div class="control-group">
+            <label>Pan: <span>${take.panVal < 0 ? 'L'+Math.abs(take.panVal) : take.panVal > 0 ? 'R'+take.panVal : 'Center'}</span></label>
+            <input type="range" min="-1" max="1" step="0.1" value="${take.panVal}" oninput="updateTakePan(${take.id}, this.value)">
+          </div>
+        </div>
+
         <div class="control-group">
           <label>Voice Changer Preset:</label>
           <select onchange="updateTakePreset(${take.id}, this.value)">
-            <option value="0" ${take.presetPitch === 0 ? 'selected' : ''}>Deep Male (Your Natural) — Pitch 0</option>
+            <option value="0" ${take.presetPitch === 0 ? 'selected' : ''}>Natural Studio — Pitch 0</option>
             <option value="2" ${take.presetPitch === 2 ? 'selected' : ''}>Light Male (Afrobeats) — Pitch +2</option>
             <option value="4" ${take.presetPitch === 4 ? 'selected' : ''}>Teen Boy — Pitch +4</option>
             <option value="-3" ${take.presetPitch === -3 ? 'selected' : ''}>Heavy Bass Male — Pitch -3</option>
             <option value="5" ${take.presetPitch === 5 ? 'selected' : ''}>Soft Female — Pitch +5</option>
             <option value="7" ${take.presetPitch === 7 ? 'selected' : ''}>Young Girl — Pitch +7</option>
-            <option value="6" ${take.presetPitch === 6 ? 'selected' : ''}>Adult Female — Pitch +6</option>
-            <option value="3" ${take.presetPitch === 3 ? 'selected' : ''}>Female Rapper (Heavy) — Pitch +3</option>
           </select>
         </div>
 
         <div class="control-group">
-          <label>
-            <span>Fine Pitch Shift (Semitones):</span>
-            <span>${totalPitch > 0 ? '+' + totalPitch : totalPitch}</span>
-          </label>
-          <input type="range" min="-12" max="12" step="1" value="${take.manualPitch}" 
-                 oninput="updateTakePitch(${take.id}, this.value)">
+          <label>Fine Pitch (Semitones): <span>${totalPitch > 0 ? '+' + totalPitch : totalPitch}</span></label>
+          <input type="range" min="-12" max="12" step="1" value="${take.manualPitch}" oninput="updateTakePitch(${take.id}, this.value)">
         </div>
       `;
       takesContainer.appendChild(takeDiv);
     });
   }
+
+  window.updateTakeGain = function(id, val) {
+    const take = vocalTakes.find(t => t.id === id);
+    if (take) {
+      take.gainVal = parseFloat(val);
+    }
+  };
+
+  window.updateTakePan = function(id, val) {
+    const take = vocalTakes.find(t => t.id === id);
+    if (take) {
+      take.panVal = parseFloat(val);
+      take.pannerNode.pan.value = take.panVal;
+    }
+  };
 
   window.updateTakePreset = function(id, presetVal) {
     const take = vocalTakes.find(t => t.id === id);
@@ -563,9 +726,12 @@
 
   window.playTake = async function(id) {
     await Tone.start();
+    initStudioChain();
     const take = vocalTakes.find(t => t.id === id);
     if (take) {
-      const player = new Tone.Player(take.buffer).connect(take.pitchNode);
+      const player = new Tone.Player(take.buffer);
+      player.volume.value = take.gainVal;
+      player.connect(take.pitchNode);
       player.start();
     }
   };
@@ -575,35 +741,51 @@
     renderTakesList();
   };
 
-  // Real-time Master FX Controls
+  // Real-time Effect Controls
+  deessSlider.addEventListener('input', (e) => {
+    if (deEsserNode) deEsserNode.frequency.value = parseFloat(e.target.value);
+  });
+  bassBoostSlider.addEventListener('input', (e) => {
+    if (bassBoostNode) bassBoostNode.gain.value = parseFloat(e.target.value);
+  });
+  delaySlider.addEventListener('input', (e) => {
+    if (delayNode) delayNode.wet.value = parseFloat(e.target.value);
+  });
+  phaserSlider.addEventListener('input', (e) => {
+    if (phaserNode) phaserNode.wet.value = parseFloat(e.target.value);
+  });
   reverbSlider.addEventListener('input', (e) => {
     if (reverbNode) reverbNode.roomSize.value = parseFloat(e.target.value);
   });
   eqHighSlider.addEventListener('input', (e) => {
     if (eqNode) eqNode.high.value = parseFloat(e.target.value);
   });
-  eqLowSlider.addEventListener('input', (e) => {
-    if (eqNode) eqNode.low.value = parseFloat(e.target.value);
-  });
 
-  // --- 4. FULL MIX PLAYBACK & MP3 EXPORT ---
+  // --- 4. PLAYBACK & EXPORT WITH FX ---
   playBtn.addEventListener('click', async () => {
     await Tone.start();
-    stopBeatPlayback();
+    stopAllPlayback();
     initStudioChain();
 
-    // Start Beat
     if (activeBeatType !== 'none' || beatBuffer) {
       startBeatPlayback();
     }
 
-    // Start all recorded vocal layers with their unique pitch/effects
     vocalTakes.forEach(take => {
-      const player = new Tone.Player(take.buffer).connect(take.pitchNode);
+      const player = new Tone.Player(take.buffer);
+      player.volume.value = take.gainVal;
+      player.connect(take.pitchNode);
       player.start();
+      activeTakePlayers.push(player);
     });
 
-    statusText.innerText = "▶️ Playing full song mix...";
+    playBtn.disabled = true;
+    stopMixBtn.disabled = false;
+    statusText.innerText = "▶️ Playing full studio mix...";
+  });
+
+  stopMixBtn.addEventListener('click', () => {
+    stopAllPlayback();
   });
 
   exportBtn.addEventListener('click', async () => {
@@ -612,7 +794,7 @@
       return;
     }
 
-    statusText.innerText = "⏳ Rendering mix & encoding MP3...";
+    statusText.innerText = "⏳ Mastering audio & encoding MP3...";
 
     let duration = 5;
     vocalTakes.forEach(take => {
@@ -620,30 +802,27 @@
     });
     if (beatBuffer && beatBuffer.duration > duration) duration = beatBuffer.duration;
 
-    // Offline Graph Rendering
+    // Offline Mastering Graph
     const offlineBuffer = await Tone.Offline(async () => {
-      const offlineLimiter = new Tone.Limiter(-0.5).toDestination();
-      const offlineReverb = new Tone.Freeverb({ roomSize: parseFloat(reverbSlider.value) }).connect(offlineLimiter);
-      const offlineCompressor = new Tone.Compressor({ threshold: -24, ratio: 4 }).connect(offlineReverb);
-      const offlineEQ = new Tone.EQ3({
-        low: parseFloat(eqLowSlider.value),
-        mid: 0,
-        high: parseFloat(eqHighSlider.value)
-      }).connect(offlineCompressor);
+      const offLimiter = new Tone.Limiter(-0.5).toDestination();
+      const offReverb = new Tone.Freeverb({ roomSize: parseFloat(reverbSlider.value) }).connect(offLimiter);
+      const offPhaser = new Tone.Phaser({ wet: parseFloat(phaserSlider.value) }).connect(offReverb);
+      const offDelay = new Tone.FeedbackDelay({ delayTime: "8n", wet: parseFloat(delaySlider.value) }).connect(offPhaser);
+      const offComp = new Tone.Compressor({ threshold: -20, ratio: 4 }).connect(offDelay);
+      const offEQ = new Tone.EQ3({ high: parseFloat(eqHighSlider.value) }).connect(offComp);
+      const offBass = new Tone.Filter({ frequency: 120, type: "lowshelf", gain: parseFloat(bassBoostSlider.value) }).connect(offEQ);
+      const offDeEsser = new Tone.Filter({ frequency: parseFloat(deessSlider.value), type: "lowpass" }).connect(offBass);
 
-      // Render Beat
       if (activeBeatType === 'imported' && beatBuffer) {
         const beatPlayer = new Tone.Player(beatBuffer).toDestination();
         beatPlayer.start(0);
       }
 
-      // Render Vocal Takes with per-track pitch shift
       vocalTakes.forEach(take => {
-        const offlinePitch = new Tone.PitchShift({
-          pitch: take.presetPitch + take.manualPitch
-        }).connect(offlineEQ);
-
-        const vocalPlayer = new Tone.Player(take.buffer).connect(offlinePitch);
+        const offPanner = new Tone.Panner(take.panVal).connect(offDeEsser);
+        const offPitch = new Tone.PitchShift({ pitch: take.presetPitch + take.manualPitch }).connect(offPanner);
+        const vocalPlayer = new Tone.Player(take.buffer).connect(offPitch);
+        vocalPlayer.volume.value = take.gainVal;
         vocalPlayer.start(0);
       });
     }, duration);
@@ -683,10 +862,19 @@
 
     const blob = new Blob(mp3Data, { type: 'audio/mp3' });
     const url = URL.createObjectURL(blob);
+    
     const downloadLink = document.createElement('a');
     downloadLink.href = url;
-    downloadLink.download = 'SoundLab_Studio_Mix.mp3';
+    downloadLink.setAttribute('download', 'SoundLab_Studio_Mix.mp3');
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    
     downloadLink.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(url);
+    }, 100);
 
     statusText.innerText = "✅ MP3 Exported to downloads!";
   }
